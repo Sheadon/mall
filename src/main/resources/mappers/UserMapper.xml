@@ -105,6 +105,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.sheadon.pojo.User" >
     update mall_user
     <set >
@@ -138,6 +139,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.sheadon.pojo.User" >
     update mall_user
     set username = #{username,jdbcType=VARCHAR},
@@ -159,6 +161,7 @@
       select count(1) from mall_user
       where email = #{email}
   </select>
+
   <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
       SELECT
       <include refid="Base_Column_List" />
@@ -166,4 +169,27 @@
       where username = #{username}
       and password = #{password}
   </select>
+
+  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    select
+    question
+    from mall_user
+    where username = #{username}
+  </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select
+    count(1)
+    from mall_user
+    where username = #{username}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
+
+  <update id="updatePasswordByUsername" parameterType="map">
+    update mall_user
+    SET password = #{passwordNew},update_time = now()
+    where username = #{username}
+  </update>
+
 </mapper>
